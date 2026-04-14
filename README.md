@@ -129,7 +129,11 @@ In addition, here are some comparison benchmarks between the pre-bonus implement
 | extra3.mif     | DAB0A7  | 6m 23.88s        | 9.78s           | 39.33×      | 40.5× cores  |
 
 ## Design Summary
-The final implementation instantiated 81 crack cores and utilized 29,523/32070 or 92% of all ALMs on the Cyclone V FPGA. The system also runs on the default 50 MHz clock frequency of the DE1-SoC board.
+The final implementation instantiated 81 crack cores and utilized 29,523/32070 or 92% of all ALMs on the Cyclone V FPGA. The system also runs on the default 50 MHz clock frequency of the DE1-SoC board. Attached below is a block diagram depicting all module instantiations, with the RAM IP instantiations denoted by their instance IDs in grey text:
+
+<p align="center">
+  <img src="State-Machine-Diagrams/instantiations.png" width="600">
+</p>
 
 ## Concluding Remarks
 
