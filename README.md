@@ -100,7 +100,14 @@ competition.sv is the top module for the decryption system. It enables the multi
   <img src="State-Machine-Diagrams/competition.png" width="600">
 </p>
 
+**Here are some images of decryption on the DE1-SoC:**
 
+<p align="center">
+  <img src="State-Machine-Diagrams/ismce_view.png" width="600">
+</p>
+<p align="center">
+  <img src="state-machine-diagrams/key_view.png" width="600" style="transform: rotate(90deg);">
+</p>
 
 
 
