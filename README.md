@@ -1,7 +1,7 @@
 # Multi-Core ARC4-Decryption-System 
 
 ## Briefing
-This is a public display repository for the DE1-SoC based ARC4 decryption system designed by David Tang and Hemat Wander for the 2025W2 CPEN 311 section. The multi-core functionality was implemented by David Tang as part of the course's bonus competition at the end of the term.
+This is a public display repository for the FPGA DE1-SoC based ARC4 decryption system designed by David Tang and Hemat Wander for the 2025W2 CPEN 311 section. The multi-core functionality was implemented by David Tang as part of the course's bonus competition at the end of the term.
 
 ## ARC4 Background
 
@@ -14,7 +14,7 @@ The ARC4 Decyption System was designed sequentially following the pseudo-algorit
 Each module follows a ready-enable microprotocol. Each module is explained below:
 
 ### init.sv
-The first step of decrypting ARC4 involves initializing the secret internal state 's' into the identity permutation. In our hardware implementation this is done by working with a generated 256 word RAM IP from Quartus (s_mem.v).
+The first step of decrypting ARC4 involves initializing the secret internal state 's' into the identity permutation. In our hardware implementation this is done by working with a generated 8-bit, 256 word RAM IP from Quartus (s_mem.v).
 ```
 for(i = 0; i < 256; i++) {
   s[i] = i;
@@ -68,6 +68,17 @@ for(k = 1; k <= message_length; k++) {
 
 ### arc4.sv
 arc4.sv is a module that enables init, ksa, and prga in a sequential order to decrypt a ciphertext given that it is supplied the correct key for that given ciphertext. In other words, every time it is enabled it operates the decyption process once.
+
+<p align="center">
+  <img src="State-Machine-Diagrams/arc4.png" width="600">
+</p>
+
+### crack.sv
+crack.sv is a module that does four things: Enable arc4, check the plaintext output for ASCII readability, increment the key if the plaintext output is not human-readable, and loop. A readable human ASCII output contains a string of bytes with hexadecimal characters between 'h20 and 'h7E inclusive. In the event that the entire plaintext string meets the aforementioned condition, a key valid flag is set high and the state returns to `READY exiting the loop. In the event that the key incrementer reaches its maximum value without a readable ASCII text detected, the state also returns to `READY but without setting the key valid flag high. Due to this cumulative functionality per module, **each instantiated crack is referred to as a core** for this project. 
+
+
+
+
 
 
 
