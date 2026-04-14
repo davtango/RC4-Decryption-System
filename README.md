@@ -14,7 +14,7 @@ The ARC4 Decyption System was designed sequentially following the pseudo-algorit
 Each module follows a ready-enable microprotocol. Each module is explained below:
 
 ### init.sv
-The first step of decrypting ARC4 involves initializing the secret internal state 's' into the identity permutation. In our hardware implementation this is done by working with a generated 256 word RAM IP from Quartus named as 'S_MEM'.
+The first step of decrypting ARC4 involves initializing the secret internal state 's' into the identity permutation. In our hardware implementation this is done by working with a generated 256 word RAM IP from Quartus (s_mem.v).
 ```
 for(i = 0; i < 256; i++) {
   s[i] = i;
@@ -43,12 +43,16 @@ for(i = 0; i < 256; i++) {
 
 
 ### prga.sv
-The third and final step is to implement the pseudo-random generation algorithm. 
+The third and final step is to implement the pseudo-random generation algorithm. Note the presence of both 'ct' and 'pt' arrays. These are also represented in hardware by additional RAM IPs (ctcore_mem.v, ptcore_mem.v) instantiated from Quartus and used to carry the ciphertext message and the plaintext messages respectively. Note that the ciphertext is a pascal string where the first byte denotes the length of the message. 
 ```
 i = 0;
 j = 0;
 k = 1;
 holder = 0;
+
+message_length = ct[0];
+pt[0] = message_length;
+
 for(k = 1; k <= message_length; k++) {
   i = (i + 1) % 256;
   j = (j+s[i]) % 256;
@@ -58,6 +62,17 @@ for(k = 1; k <= message_length; k++) {
   pt[k] = s[(s[i] + s[j]) % 256] ^ ct[k];
 }
 ```
+<p align="center">
+  <img src="State-Machine-Diagrams/prga.png" width="600">
+</p>
+
+### arc4.sv
+arc4.sv is a module that enables init, ksa, and prga in a sequential order to decrypt a ciphertext given that it is supplied the correct key for that given ciphertext. In other words, every time it is enabled it operates the decyption process once.
+
+
+
+
+
 
 
 
