@@ -94,7 +94,7 @@ competition.sv is the top module for the decryption system. It enables the multi
 2. User MBOX[0] to 'hFF to prompt competition.sv to enable multicrack. (for this project, mbox_mem.v)
 3. User waits until competition.sv sets MBOX[1] to 'hFF to signal completion of cracking. User is able to read the key in big-endian from MBOX[2:4] 
 4. User sets MBOX[0] to 'h00 to signal to competition that a new ciphertext may be provided for another round of cracking and waits one second. In this duration, competition.sv sets MBOX[1] to 'h00 to cease completion
-5. User capable of repeating steps 1-4 indefinitely
+5. User is capable of repeating steps 1-4 indefinitely
 ```
 <p align="center">
   <img src="State-Machine-Diagrams/competition.png" width="600">
