@@ -9,18 +9,32 @@ This is a public display repository for the DE1-SoC based ARC4 decryption system
 
 ## Implementation
 
-The ARC4 Decyption System was designed sequentially following the pseudo-algorithm on the Wikipedia page. There are three main modules: init.sv, ksa.sv, and prga.sv which are then driven sequentially by arc4.sv to decrypt a certain message given a known key. crack.sv implements an additional FSM to cycle through keys, repeatedly running arc4.sv and checking the plaintext result until a fully human read-able string in ASCII is detected. doublecrack.sv and multicrack.sv are involved with the instantiations of multiple crack cores. Each module is explained below:
+The ARC4 Decyption System was designed sequentially following the pseudo-algorithm on the Wikipedia page (which has been converted to C here). There are three main modules: init.sv, ksa.sv, and prga.sv involved with implementing the ARC4 algorithm, which are then driven sequentially by arc4.sv to decrypt a certain message given a known key. crack.sv implements an additional FSM to cycle through keys, repeatedly running arc4.sv and checking the plaintext result until a fully human read-able string in ASCII is detected. doublecrack.sv and multicrack.sv are involved with the instantiations of multiple crack cores. Each module is explained below:
 
 ### init.sv
-The purpose of this module is to initialize the instantiated 256 word cipher state memory S_MEM into an identity permutation:
-
+The first step of decrypting ARC4 involves initializing the secret internal state 's' into the identity permutation. In our hardware implementation this is done by working with a generated 256 word RAM IP from Quartus named as 'S_MEM'.
 ```
-for(i = 0; i < 255; i++) {
+for(i = 0; i < 256; i++) {
   s[i] = i;
 }
 ```
+<p align="center">
+  <img src="State-Machine-Diagrams/init.png" width="600">
+</p>
 
-State machine diagram:
+### ksa.sv
+The second step is to implement a key-scheduling algorithm that mixes in key bytes into the s rray in order to prevent statistical correlations in generated ciphertexts. 
+```
+i = 0;
+j = 0;
+holder = 0;
+for(i = 0; i < 256; i++) {
+  j = j( j + s[i] + key[i % 3]) % 256;
+  holder = s[j];
+  s[i] = s[j];
+  s[j] = holder;
+}
+```
 
 
 ### ksa.sv
