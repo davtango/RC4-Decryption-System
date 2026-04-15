@@ -121,9 +121,9 @@ competition.sv is the top module for the decryption system. It enables the multi
 | msg5.mif | 8.13           | DABA4D | Let me not to the marriage of true minds admit impediments. Love is not love which alters when it alteration finds, or bends with the remover to remove. |
 | msg6.mif | 2.48           | 424242 | Far out in the uncharted backwaters of the unfashionable end of the Western Spiral arm of the Galaxy lies a small unregarded yellow sun |
 
-In addition, here are some comparison benchmarks between the pre-bonus implementation with two cores by group B1 and the multi-core implementation by DT:
+In addition, here are some comparison benchmarks between the pre-bonus implementation with two cores by group B1 (DT + HW) and the multi-core implementation by DT:
 
-| Message        | Key     | Doublecrack Time | Multicrack Time | Speedup (×) | Core Scaling |
+| Message        | Key     | Doublecrack Time | Multicrack Time | Speedup     | Core Scaling |
 |----------------|---------|------------------|-----------------|-------------|--------------|
 | B1 Demo        | 363636  | 1m 2.79s         | 1.75s           | 35.88×      | 40.5× cores  |
 | extra3.mif     | DAB0A7  | 6m 23.88s        | 9.78s           | 39.33×      | 40.5× cores  |
@@ -139,12 +139,6 @@ The final implementation instantiated 81 crack cores and utilized 29,523/32070 o
 
 If I have time to return to this project, I may consider increasing the clock frequency by incorporating a PLL IP from Quartus to scale up the default board 50 MHz and accelerate the key-sifting speeds even further. 
 
-**Thanks for reading through the README for this project!** For further details, I recommend reading the comments in both the design and testbench SystemVerilog files located in the src and tb folders respectively.
+For further details, I recommend reading the comments in both the design and testbench SystemVerilog files located in the src and tb folders respectively.
 
-
-
-
-
-
-
-
+**Thanks for checking out this project!**
